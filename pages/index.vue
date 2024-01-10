@@ -89,7 +89,7 @@
           @pointer-down-outside.prevent
         >
           <div class="form-box">
-            <form class="form">
+            <form class="form" @submit.prevent="startLoading">
               <span class="title">Sign up</span>
               <span class="subtitle"
                 >Create a free account with your email.</span
@@ -99,7 +99,10 @@
                 <input type="email" class="input" placeholder="Email" />
                 <input type="password" class="input" placeholder="Password" />
               </div>
-              <button>Sign up</button>
+              <button type="submit">
+                <p v-if="isLoading">isLoading</p>
+                <p v-else>Sign Up</p>
+              </button>
             </form>
             <div class="form-section">
               <p>Have an account? <a href="">Log in</a></p>
@@ -165,12 +168,23 @@ import { VisuallyHidden } from "radix-vue";
 const { toast } = useToast();
 
 const open = ref(false);
+const isLoading = ref(false);
+const wait = () => new Promise((resolve) => setTimeout(resolve, 1000));
 
+const startLoading = async () => {
+  isLoading.value = true;
+  try {
+    await wait();
+  } finally {
+    isLoading.value = false;
+    open.value = false;
+  }
+};
 const plugin = Autoplay({
   delay: 2000,
   stopOnMouseEnter: true,
   stopOnInteraction: false,
-})
+});
 
 const clickToast = () => {
   toast({
