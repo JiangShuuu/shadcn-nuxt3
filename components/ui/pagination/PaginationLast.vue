@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { PaginationLast, type PaginationLastProps, useForwardProps } from 'radix-vue'
-import { AlertTriangle } from 'lucide-vue-next'
+import { ChevronsRight } from 'lucide-vue-next'
 import {
   Button,
 } from '@/components/ui/button'
@@ -15,7 +15,7 @@ const forwarded = useForwardProps(props)
   <PaginationLast v-bind="forwarded">
     <Button class="w-10 h-10 p-0" variant="outline">
       <slot>
-        <AlertTriangle class="h-4 w-4" />
+        <ChevronsRight class="h-4 w-4" />
       </slot>
     </Button>
   </PaginationLast>
