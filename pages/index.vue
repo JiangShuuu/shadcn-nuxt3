@@ -77,47 +77,50 @@
       <Button variant="outline" @click="() => (open = true)"
         >Custom Dialog Btn</Button
       >
-      <!-- Dialog -->
-      <Dialog v-model:open="open">
-        <!-- <DialogTrigger as-child>
-          <Button variant="outline"> Open Dialog </Button>
-        </DialogTrigger> -->
-        <DialogContent
-          class="p-0"
-          @interact-outside.prevent
-          @focus-outside.prevent
-          @pointer-down-outside.prevent
-        >
-          <div class="form-box">
-            <form class="form" @submit.prevent="startLoading">
-              <span class="title">Sign up</span>
-              <span class="subtitle"
-                >Create a free account with your email.</span
-              >
-              <div class="form-container">
-                <input type="text" class="input" placeholder="Full Name" />
-                <input type="email" class="input" placeholder="Email" />
-                <input type="password" class="input" placeholder="Password" />
-              </div>
-              <button type="submit">
-                <p v-if="isLoading">isLoading</p>
-                <p v-else>Sign Up</p>
-              </button>
-            </form>
-            <div class="form-section">
-              <p>Have an account? <a href="">Log in</a></p>
-            </div>
-          </div>
-          <VisuallyHidden asChild>
-            <DialogHeader>
-              <DialogTitle></DialogTitle>
-              <DialogDescription> </DialogDescription>
-            </DialogHeader>
-            <!-- <DialogFooter></DialogFooter> -->
-          </VisuallyHidden>
-        </DialogContent>
-      </Dialog>
+      <Button variant="outline" @click="clickToast"
+        >Toast</Button
+      >
     </div>
+    <!-- Dialog -->
+    <Dialog v-model:open="open">
+      <!-- <DialogTrigger as-child>
+        <Button variant="outline"> Open Dialog </Button>
+      </DialogTrigger> -->
+      <DialogContent
+        class="p-0"
+        @interact-outside.prevent
+        @focus-outside.prevent
+        @pointer-down-outside.prevent
+      >
+        <div class="form-box">
+          <form class="form" @submit.prevent="startLoading">
+            <span class="title">Sign up</span>
+            <span class="subtitle"
+              >Create a free account with your email.</span
+            >
+            <div class="form-container">
+              <input type="text" class="input" placeholder="Full Name" />
+              <input type="email" class="input" placeholder="Email" />
+              <input type="password" class="input" placeholder="Password" />
+            </div>
+            <button type="submit">
+              <p v-if="isLoading">isLoading</p>
+              <p v-else>Sign Up</p>
+            </button>
+          </form>
+          <div class="form-section">
+            <p>Have an account? <a href="">Log in</a></p>
+          </div>
+        </div>
+        <VisuallyHidden asChild>
+          <DialogHeader>
+            <DialogTitle></DialogTitle>
+            <DialogDescription> </DialogDescription>
+          </DialogHeader>
+          <!-- <DialogFooter></DialogFooter> -->
+        </VisuallyHidden>
+      </DialogContent>
+    </Dialog>
     <Pagination
       v-slot="{ page }"
       :total="100"
