@@ -80,6 +80,9 @@
       <Button variant="outline" @click="clickToast"
         >Toast</Button
       >
+      <Button variant="outline" @click="() => $router.push('/data-table')"
+        >DataTable</Button
+      >
     </div>
     <!-- Dialog -->
     <Dialog v-model:open="open">
