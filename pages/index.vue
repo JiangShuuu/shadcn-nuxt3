@@ -155,13 +155,6 @@
 </template>
 
 <script setup lang="ts">
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import { useToast } from "@/components/ui/toast/use-toast";
 import { VisuallyHidden } from "radix-vue";
