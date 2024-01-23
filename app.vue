@@ -3,11 +3,11 @@
     <Body>
       <NuxtLayout>
         <NuxtLoadingIndicator />
-        <NuxtPage />
-        <div class="absolute">
-          <Toaster />
-        </div>
-      </NuxtLayout>
+        <UContainer>
+          <NuxtPage />
+        </UContainer>
+        </NuxtLayout>
+      <UNotifications />
     </Body>
   </Html>
 </template>
