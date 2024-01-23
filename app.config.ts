@@ -22,6 +22,9 @@ export default defineAppConfig({
         font: '',
         size: 'text-sm'
       }
+    },
+    icons: {
+      dynamic: true
     }
   }
 })
