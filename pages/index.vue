@@ -1,6 +1,7 @@
 <template>
-  <div class="w-full h-screen flex items-center justify-center">
+  <div class="w-full h-screen">
     <div class="flex flex-col items-center justify-center space-y-3">
+      <FlickingDemo class="mt-10" />
       <UPagination
         v-model="page"
         :total="items.length"
@@ -78,10 +79,12 @@
                 <UInput v-model="state.password" type="password" />
               </UFormGroup>
 
-              <UButton type="submit" :disabled="isLoading"><span v-if="!isLoading">Submit</span><span v-else>Loading...</span></UButton>
+              <UButton type="submit" :disabled="isLoading"
+                ><span v-if="!isLoading">Submit</span
+                ><span v-else>Loading...</span></UButton
+              >
             </UForm>
           </div>
-          <Placeholder class="h-32" />
         </UCard>
       </UModal>
     </div>
@@ -91,7 +94,6 @@
 <script lang="ts" setup>
 import { z } from "zod";
 import type { FormSubmitEvent } from "#ui/types";
-
 // Toast
 const toast = useToast();
 const showToast = () => {
@@ -118,13 +120,13 @@ const state = reactive({
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   // Do something with data
-  isLoading.value = true
+  isLoading.value = true;
   try {
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     toast.add({ title: `Submit Success ${event.data.email}` });
   } finally {
-    isLoading.value = false
-    isOpen.value = false
+    isLoading.value = false;
+    isOpen.value = false;
   }
 }
 </script>
