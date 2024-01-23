@@ -77,9 +77,7 @@
       <Button variant="outline" @click="() => (open = true)"
         >Custom Dialog Btn</Button
       >
-      <Button variant="outline" @click="clickToast"
-        >Toast</Button
-      >
+      <Button variant="outline" @click="clickToast">Toast</Button>
       <Button variant="outline" @click="() => $router.push('/data-table')"
         >DataTable</Button
       >
@@ -90,30 +88,31 @@
         <Button variant="outline"> Open Dialog </Button>
       </DialogTrigger> -->
       <DialogContent
-        class="p-0"
+        class="p-0 rounded-2xl"
         @interact-outside.prevent
         @focus-outside.prevent
         @pointer-down-outside.prevent
       >
-        <div class="form-box">
-          <form class="form" @submit.prevent="startLoading">
-            <span class="title">Sign up</span>
-            <span class="subtitle"
-              >Create a free account with your email.</span
-            >
-            <div class="form-container">
-              <input type="text" class="input" placeholder="Full Name" />
-              <input type="email" class="input" placeholder="Email" />
-              <input type="password" class="input" placeholder="Password" />
-            </div>
-            <button type="submit">
-              <p v-if="isLoading">isLoading</p>
-              <p v-else>Sign Up</p>
-            </button>
+        <div class="w-[450px] p-10">
+          <form @submit="onSubmit">
+            <FormField v-slot="{ componentField }" name="username">
+              <FormItem class="relative">
+                <FormLabel>Username</FormLabel>
+                <FormControl>
+                  <Input
+                    type="text"
+                    placeholder="shadcn"
+                    v-bind="componentField"
+                  />
+                </FormControl>
+                <FormDescription>
+                  This is your public display name.
+                </FormDescription>
+                <FormMessage class="absolute right-0 bottom-0"/>
+              </FormItem>
+            </FormField>
+            <Button type="submit" :disabled="isLoading"><span v-if="!isLoading">Submit</span><span v-else>Loading...</span></Button>
           </form>
-          <div class="form-section">
-            <p>Have an account? <a href="">Log in</a></p>
-          </div>
         </div>
         <VisuallyHidden asChild>
           <DialogHeader>
@@ -140,7 +139,7 @@
             v-if="item.type === 'page'"
             :key="index"
             :value="item.value"
-            class="test"
+            class="w-[100px]"
             as-child
           >
             <Button
@@ -164,21 +163,14 @@
 import Autoplay from "embla-carousel-autoplay";
 import { useToast } from "@/components/ui/toast/use-toast";
 import { VisuallyHidden } from "radix-vue";
-const { toast } = useToast();
+import { toTypedSchema } from "@vee-validate/zod";
+import { useForm } from "vee-validate";
+import * as z from "zod";
 
+const { toast } = useToast();
 const open = ref(false);
 const isLoading = ref(false);
-const wait = () => new Promise((resolve) => setTimeout(resolve, 1000));
 
-const startLoading = async () => {
-  isLoading.value = true;
-  try {
-    await wait();
-  } finally {
-    isLoading.value = false;
-    open.value = false;
-  }
-};
 const plugin = Autoplay({
   delay: 2000,
   stopOnMouseEnter: true,
@@ -190,95 +182,27 @@ const clickToast = () => {
     title: "Scheduled: Catch up",
     description: "Friday, February 10, 2023 at 5:57 PM",
     duration: 1000,
+    // variant: "destructive"
   });
 };
+
+// Form
+const formSchema = toTypedSchema(
+  z.object({
+    username: z.string().min(2).max(50),
+  })
+);
+const form = useForm({
+  validationSchema: formSchema,
+});
+const onSubmit = form.handleSubmit(async(values) => {
+  isLoading.value = true;
+  try {
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    console.log("Form submitted!", values);
+  } finally {
+    isLoading.value = false;
+    open.value = false;
+  }
+});
 </script>
-
-<style lang="postcss" scoped>
-.test {
-  width: 100px;
-}
-
-.form-box {
-  max-width: 300px;
-  background: #f1f7fe;
-  overflow: hidden;
-  border-radius: 16px;
-  color: #010101;
-}
-
-.form {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  padding: 32px 24px 24px;
-  gap: 16px;
-  text-align: center;
-}
-
-/*Form text*/
-.title {
-  font-weight: bold;
-  font-size: 1.6rem;
-}
-
-.subtitle {
-  font-size: 1rem;
-  color: #666;
-}
-
-/*Inputs box*/
-.form-container {
-  overflow: hidden;
-  border-radius: 8px;
-  background-color: #fff;
-  margin: 1rem 0 0.5rem;
-  width: 100%;
-}
-
-.input {
-  background: none;
-  border: 0;
-  outline: 0;
-  height: 40px;
-  width: 100%;
-  border-bottom: 1px solid #eee;
-  font-size: 0.9rem;
-  padding: 8px 15px;
-}
-
-.form-section {
-  padding: 16px;
-  font-size: 0.85rem;
-  background-color: #e0ecfb;
-  box-shadow: rgb(0 0 0 / 8%) 0 -1px;
-}
-
-.form-section a {
-  font-weight: bold;
-  color: #0066ff;
-  transition: color 0.3s ease;
-}
-
-.form-section a:hover {
-  color: #005ce6;
-  text-decoration: underline;
-}
-
-/*Button*/
-.form button {
-  background-color: #0066ff;
-  color: #fff;
-  border: 0;
-  border-radius: 24px;
-  padding: 10px 16px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.form button:hover {
-  background-color: #005ce6;
-}
-</style>
