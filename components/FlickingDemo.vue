@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import Flicking, { type FlickingOptions } from '@egjs/vue3-flicking'
-import { Arrow, AutoPlay } from '@egjs/flicking-plugins'
+import { Arrow, AutoPlay, Pagination } from '@egjs/flicking-plugins'
 import '@egjs/vue3-flicking/dist/flicking.css'
-import '@egjs/flicking-plugins/dist/arrow.css'
+// import '@egjs/flicking-plugins/dist/arrow.css'
+import "@egjs/flicking-plugins/dist/pagination.css";
+
+
 const list = ref([1, 2, 3, 4, 5, 6])
 
 const flicking = ref<Flicking>()
@@ -23,7 +26,8 @@ const plugins = [
   new Arrow({
     moveByViewportSize: true,
   }),
-  new AutoPlay({ duration: 2000, direction: "NEXT", stopOnHover: false })
+  new AutoPlay({ duration: 2000, direction: "NEXT", stopOnHover: false }),
+  new Pagination({ type: 'scroll' })
 ]
 </script>
 
@@ -34,13 +38,11 @@ const plugins = [
         <img :src="`https://fakeimg.pl/400x300/?text=${idx}`" />
       </div>
       <template #viewport>
-        <UIcon name="i-mingcute-left-fill" class="flicking-arrow-prev h-2 w-2" />
-        <UIcon name="i-mingcute-right-fill" class="flicking-arrow-next " />
-        <!-- <span class="flicking-arrow-prev is-circle hidden md:block"></span>
-        <span class="flicking-arrow-next is-circle hidden md:block"></span> -->
+        <UIcon name="i-mingcute-left-fill" class="flicking-arrow-prev h-10 w-10" />
+        <UIcon name="i-mingcute-right-fill" class="flicking-arrow-next h-10 w-10" />
+        <div class="flicking-pagination"></div>
       </template>
     </Flicking>
-
     <!-- <button class="btn" @click="circular">circular</button> -->
   </div>
 </template>
